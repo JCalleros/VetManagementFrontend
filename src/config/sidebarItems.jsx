@@ -6,8 +6,8 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpIcon from '@mui/icons-material/Help';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import Person2Icon from '@mui/icons-material/Person2';
 
 export const sidebarItems = [
   { text: "Dashboard", icon: <DashboardIcon />, path: "", info: "View an overview of the clinic's performance and key metrics" },
@@ -28,5 +28,10 @@ export const sidebarItems = [
   { text: "Settings", icon: <SettingsIcon />, path: "settings", info: "Customize application settings and preferences" },
   { text: "Help & Support", icon: <HelpIcon />, path: "help", info: "Access documentation, FAQs, and contact information for support" },
   { text: "Medical Services", icon: <MedicalServicesIcon />, path: "medical-services", info: "Manage medical services offered by the clinic" },
-
+  { 
+    text: "Profile", 
+    icon: <Person2Icon />, 
+    path: "profile", 
+    info: "Update your profile information", 
+  },
 ];
