@@ -12,9 +12,10 @@ const PetDetailContainer = styled(Container)(({ theme }) => ({
 }));
 
 const PetDetail = () => {
-  const { id } = useParams(); // Get the pet ID from the URL params
+  const { id } = useParams();
 
-  // Dummy data for demonstration
+  console.log(`Pet detail id: ${id}`);
+  
   const pet = {
     id: 1,
     name: 'Buddy',

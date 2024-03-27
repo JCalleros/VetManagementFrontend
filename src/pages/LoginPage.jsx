@@ -34,8 +34,7 @@ function LoginPage() {
   // Handle the form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    // TODO: implement your login logic here
-    // Navigate to the dashboard page
+    //login(e.target);
     navigate('/dashboard');
   };
 

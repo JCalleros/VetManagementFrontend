@@ -1,0 +1,164 @@
+:root {
+    --dog-color: hsl(321, 50%, 23%);
+    --dog-light-color: hsl(30, 80%, 60%);
+    --dog-lighter-color: hsl(30, 80%, 80%);
+    --dog-ear-color: hsl(0, 0%, 20%);
+    --dog-nose-color: hsl(0, 0%, 10%);
+    --dog-eye-color: hsl(0, 0%, 0%);
+    --dog-tail-color: hsl(30, 80%, 40%);
+    --wheel-color: hsl(0, 0%, 60%);
+    --wheel-light-color: hsl(0, 0%, 65%);
+    --wheel-dark-color: hsl(0, 0%, 55%);
+    --dur: 0.8s;
+  }
+  
+  .wheel-and-dog {
+    --dur: var(--dur);
+    position: relative;
+    width: 12em;
+    height: 12em;
+    font-size: 14px;
+  }
+  
+  .wheel,
+  .dog,
+  .dog div,
+  .spoke {
+    position: absolute;
+  }
+  
+  .wheel,
+  .spoke {
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .wheel {
+    background: radial-gradient(100% 100% at center, hsla(var(--wheel-color), 0) 47.8%, var(--wheel-color) 48%);
+    z-index: 2;
+  }
+  
+  .dog {
+    top: 50%;
+    left: calc(50% - 3.5em);
+    width: 7em;
+    height: 3.75em;
+    transform-origin: 50% 0;
+    z-index: 1;
+  }
+  
+  .dog__head {
+    /* background: var(--dog-color); */
+    /* border-radius: 70% 30% 0 100% / 40% 25% 25% 60%;
+    box-shadow: 0 -0.25em 0 var(--dog-light-color) inset,
+      0.75em -1.55em 0 var(--dog-lighter-color) inset; */
+    top: 0;
+    left: -2em;
+    width: 2.75em;
+    height: 2.5em;
+    transform-origin: 100% 50%;
+  }
+  
+  .dog__ear {
+    background: var(--dog-ear-color);
+    border-radius: 6% 6% 50% 50% / 38% 30% 70% 62%;
+    box-shadow: -0.25em 0 var(--dog-color) inset;
+    top: -0.25em;
+    right: -0.25em;
+    width: 0.75em;
+    height: 0.75em;
+    transform-origin: 50% 75%;
+  }
+  
+  .dog__eye {
+    background-color: var(--dog-eye-color);
+    border-radius: 50%;
+    top: 0.375em;
+    left: 1.25em;
+    width: 0.5em;
+    height: 0.5em;
+  }
+  
+  .dog__snout {
+    background: var(--dog-nose-color);
+    border-radius: 35% 65% 85% 15% / 70% 50% 50% 30%;
+    top: 0.75em;
+    left: 0;
+    width: 0.2em;
+    height: 0.25em;
+  }
+  
+  .dog__body {
+    background: var(--dog-lighter-color);
+    border-radius: 50% 30% 50% 30% / 15% 60% 40% 40%;
+    box-shadow: 0.1em 0.75em 0 var(--dog-color) inset,
+      0.15em -0.5em 0 var(--dog-light-color) inset;
+    top: 0.25em;
+    left: 2em;
+    width: 4.5em;
+    height: 3em;
+    transform-origin: 17% 50%;
+    transform-style: preserve-3d;
+  }
+  
+  .dog__limb--fr,
+  .dog__limb--fl {
+    clip-path: polygon(0 0, 100% 0, 70% 80%, 60% 100%, 0% 100%, 40% 80%);
+    top: 2em;
+    left: 0.5em;
+    width: 1em;
+    height: 1.5em;
+    transform-origin: 50% 0;
+  }
+  
+  .dog__limb--fr {
+    background: linear-gradient(var(--dog-light-color) 80%, var(--dog-nose-color) 80%);
+    transform: rotate(15deg) translateZ(-1px);
+  }
+  
+  .dog__limb--fl {
+    background: linear-gradient(var(--dog-lighter-color) 80%, var(--dog-ear-color) 80%);
+    transform: rotate(15deg);
+  }
+  
+  .dog__limb--br,
+  .dog__limb--bl {
+    border-radius: 0.75em 0.75em 0 0;
+    clip-path: polygon(0 0, 100% 0, 100% 30%, 70% 90%, 70% 100%, 30% 100%, 40% 90%, 0% 30%);
+    top: 1em;
+    left: 2.8em;
+    width: 1.5em;
+    height: 2.5em;
+    transform-origin: 50% 30%;
+  }
+  
+  .dog__limb--br {
+    background: linear-gradient(var(--dog-light-color) 90%, var(--dog-nose-color) 90%);
+    transform: rotate(-25deg) translateZ(-1px);
+  }
+  
+  .dog__limb--bl {
+    background: linear-gradient(var(--dog-lighter-color) 90%, var(--dog-ear-color) 90%);
+    transform: rotate(-25deg);
+  }
+  
+  .dog__tail {
+    background: var(--dog-tail-color);
+    border-radius: 0.25em 50% 50% 0.25em;
+    box-shadow: 0 -0.2em 0 var(--dog-nose-color) inset;
+    top: 1.5em;
+    right: -0.5em;
+    width: 1em;
+    height: 0.5em;
+    transform: rotate(30deg) translateZ(-1px);
+    transform-origin: 0.25em 0.25em;
+  }
+  
+  .spoke {
+    background: radial-gradient(100% 100% at center, var(--wheel-color) 4.8%, hsla(var(--wheel-color), 0) 5%),
+      linear-gradient(hsla(var(--wheel-dark-color), 0) 46.9%, var(--wheel-light-color) 47% 52.9%, hsla(var(--wheel-light-color), 0) 53%) 50% 50% / 99% 99% no-repeat;
+  }
+  
