@@ -1,9 +1,27 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { Dialog, DialogTitle, DialogContent, TextField, Button, DialogActions } from '@mui/material';
 import SearchCreateField from './SearchCreateField';
+import ModalForm from './ModalForm';
+import OwnerForm from './OwnerForm';
+
+const useFormInput = (initialValue) => {
+  const [value, setValue] = useState(initialValue);
+
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
+
+  return {
+    value,
+    onChange: handleChange
+  };
+};
 
 const PetModalForm = ({ open, onClose, onSave, owners}) => {
-  
+  const [formValues, setFormValues] = useState({});
+  const [errors, setErrors] = useState({});
+  const [openExtraModal, setOpen] = useState(false);
+  const [owner, setSelectedOwner] = useState({});
   const [petData, setPetData] = useState({
     name: '',
     species: '',
@@ -12,12 +30,14 @@ const PetModalForm = ({ open, onClose, onSave, owners}) => {
     photo: null,
   });
 
+  
   const [searchTerm, setSearchTerm] = useState('');
-
+  
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
+  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,6 +51,27 @@ const PetModalForm = ({ open, onClose, onSave, owners}) => {
   const handleSave = () => {
     onSave(petData);
     onClose();
+  };
+
+  const handleOpen = useCallback(() => {
+    setFormValues({});
+    setErrors({});
+    setOpen(true);
+  }, []);
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
+  const handleSubmit = (values) => {
+    console.log('Form submitted with values:', values);
+    handleClose();
+  };
+
+  const onItemSelect = (owner) => {
+    setSelectedOwner(owner);
+    setSearchTerm('');
+    //setFilteredOwners([]);
   };
 
   return (
@@ -74,7 +115,14 @@ const PetModalForm = ({ open, onClose, onSave, owners}) => {
           variant="outlined"
           onChange={handleInputChange}
         />
-        <SearchCreateField searchLabel="Owner" searchTerm={searchTerm} handleSearchChange={handleSearchChange} /> 
+        <SearchCreateField searchLabel="Owners" searchTerm={searchTerm} data={owners} handleSearchChange={handleSearchChange} openCreate={handleOpen} onItemSelect={onItemSelect}/>
+        <ModalForm
+          isOpen={openExtraModal}
+          onClose={handleClose}
+          title={'Create Owner'}
+        >
+          <OwnerForm onSubmit={handleSubmit} />
+        </ModalForm>
         <input
           accept="image/*"
           style={{ display: 'none' }}
