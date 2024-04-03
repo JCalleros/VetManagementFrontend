@@ -13,14 +13,17 @@ import TextField from '@mui/material/TextField';
 import Divider from '@mui/material/Divider';
 import Pagination from '@mui/material/Pagination';
 import { createPet, getPets } from '../api/pets';
+import { getOwners } from '../api/owners';
 import { styled } from '@mui/material/styles';
 import defaultDogPhoto from '../assets/default_dog_photo.jpg';
+import defaultCatPhoto from '../assets/default_cat_photo.jpg'
+import defaultPetPhoto from '../assets/default_pet_photo.jpg'
 import PetModalForm from '../components/PetModalForm';
 import { useApi } from '../hooks/useApi';
 
 const speciesImages = {
   dog: defaultDogPhoto,
-  // cat: catImage,
+  cat: defaultCatPhoto,
   // add more species and their images here
 };
 
@@ -45,7 +48,7 @@ const PetsPage = () => {
   const [petsPerPage] = useState(6);
   const [openDialog, setOpenDialog] = useState(false);
   const { data: pets, loading, error } = useApi(getPets);
-  
+  const { data: owners, loading: loadingOwners, errorPets } = useApi(getOwners);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -62,8 +65,7 @@ const PetsPage = () => {
 
   const filteredPets = useMemo(() =>
     pets.filter((pet) =>
-      pet.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      pet.owner.name.toLowerCase().includes(searchQuery.toLowerCase())
+      pet.name.toLowerCase().includes(searchQuery.toLowerCase())
   ), [pets, searchQuery]);
 
   const currentPets = useMemo(() => {
@@ -116,7 +118,7 @@ const PetsPage = () => {
         {currentPets.map((pet) => (
           <Grid key={pet.id} item xs={12} sm={6} md={4} lg={3}>
             <PetCard elevation={3}>
-  <PetImage src={pet.photoUrl || speciesImages[pet.species.toLowerCase()] } alt={pet.name} />
+  <PetImage src={pet.photoUrl || speciesImages[pet.species.toLowerCase()] || defaultPetPhoto} alt={pet.name} />
   <CardContent>
     <PetsIcon fontSize="large" color={pet.sex === 'M' ? "primary" : "secondary"} />
     <Typography variant="h6" component="h2" gutterBottom sx={{ mt: 2 }}>
@@ -144,7 +146,7 @@ const PetsPage = () => {
     component={Link}
     to={`/dashboard/pets/${pet.id}`}
     variant="contained"
-    color="primary"
+    color={pet.sex === 'M' ? "primary" : "secondary"}
     size="small"
     fullWidth
   >
@@ -166,6 +168,7 @@ const PetsPage = () => {
         open={openDialog}
         onClose={handleCloseDialog}
         onSave={handleSubmit}
+        owners={owners}
       />
 
     </Box>

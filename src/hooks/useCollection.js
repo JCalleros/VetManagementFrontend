@@ -88,26 +88,19 @@ const useCollection = (collectionName, docId) => {
         if (data) {
           // Set the collection item state with the data
           setCollectionItem(data);
-          console.log(`DATAAAAAAA: ${data}`);
         } else {
-          // Throw an error if the data does not exist
-          console.log(`NOOO DATA`);
           throw new Error("No such collection or document");
         }
       } catch (err) {
-        // Set the error state with the error message
-        console.log(`ERROR: ${err}`);
         setError(err.message);
       } finally {
-        // Set the loading state to false
         setLoading(false);
       }
-    }, 1000); // Adjust the delay as needed
+    }, 1000);
   };
 
   // Use the useEffect hook to call the mockFetchCollectionItem function when the component mounts or the parameters change
   useEffect(() => {
-    console.log(`Using Effect`);
     mockFetchCollectionItem();
   }, [collectionName, docId]);
 
