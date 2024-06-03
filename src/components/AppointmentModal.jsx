@@ -1,30 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, List, ListItem, ListItemAvatar,InputAdornment, IconButton, Avatar, ListItemText } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
+import SearchCreateField from './SearchCreateField';
+import ModalForm from './ModalForm';
+import PetForm from './PetForm';
 
-const SearchField = ({ 
-    searchTerm, 
-    handleSearchChange, 
-    filterOptions, 
-    handleOptionSelect, 
-    selectedOption,
-    optionDisplayFields,
-  }) => {
- 
-  const [selectedOptionName, setSelectedOptionName] = useState(
-    selectedOption ? selectedOption.name : ''
-  );
+const AppointmentModal = ({ open, onClose, appointment, pets }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredPets, setFilteredPets] = useState([]);
+  const [selectedPet, setSelectedPet] = useState(appointment?.pet || null);
+  const [openExtraModal, setOpen] = useState(false);
 
-  useEffect(() => {
-    if (selectedOption) {
-      console.log(`Selected option: ${JSON.stringify(selectedOption)}`)
-      setSelectedOptionName(selectedOption.name);
-    }
-  }, [selectedOption]);
-  
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
 
-  const renderOption = (option) => {
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const handlePetSelect = (pet) => {
+    setSelectedPet(pet);
+    setSearchTerm(pet.name);
+    setFilteredPets([]);
+  };
+
+  const handleSubmit = () => {
+    console.log({ ...appointment, pet: selectedPet });
+    onClose();
+  };
+
+  const handleExtraSubmit = () => {
+    console.log({ ...appointment, pet: selectedPet });
+    setOpen(false)
+  }
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
+  const renderOption = (option, optionDisplayFields) => {
     return (
       <>
         {optionDisplayFields.photo && option[optionDisplayFields.photo] && (
@@ -45,48 +59,7 @@ const SearchField = ({
     );
   };
 
-  return (
-    <>
-    <TextField
-          label="Search"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          defaultValue={selectedOptionName}
-          fullWidth
-          margin="normal"
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={()=>{}}>
-                  <AddCircleOutlineIcon />
-                </IconButton>
-              </InputAdornment>
-            ),
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          }}
-        />
-        <List>
-        {filterOptions &&
-          filterOptions.map((option) => (
-            <ListItem button key={option.id} onClick={() => handleOptionSelect(option)}>
-              {renderOption(option)}
-            </ListItem>
-          ))}
-      </List>
-    </>
-  )
-}
-
-
-
-const AppointmentModal = ({ open, onClose, appointment, pets }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filteredPets, setFilteredPets] = useState([]);
-  const [selectedPet, setSelectedPet] = useState(appointment?.pet || null);
+  
 
   useEffect(() => {
     try{
@@ -110,56 +83,50 @@ const AppointmentModal = ({ open, onClose, appointment, pets }) => {
   }
   }, [searchTerm, pets]);
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handlePetSelect = (pet) => {
-    setSelectedPet(pet);
-    setSearchTerm(pet.name);
-    setFilteredPets([]);
-  };
-
-  const handleSubmit = () => {
-    // API call to save the appointment
-    console.log({ ...appointment, pet: selectedPet });
-    onClose();
-  };
-
-  
   return (
-    <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{appointment?.id ? 'Update Appointment' : 'New Appointment'}</DialogTitle>
-      <DialogContent>
-        <SearchField searchTerm={searchTerm} handleSearchChange={handleSearchChange} filterOptions={filteredPets}
-          handleOptionSelect={handlePetSelect}
-          selectedOption={selectedPet}
-          optionDisplayFields={{
-            photo: 'photo',
-            name: 'name',
-            sex: 'sex',
-            owners: 'owners',
-        }}/>
-        {/* Add other form fields and the quick add pet feature here */}
-        <TextField
-          type='Date'
-          label="Date"
-          value={appointment?.date || ''}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          label="Details"
-          value={appointment?.details || ''}
-          fullWidth
-          margin="normal"
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSubmit}>Save</Button>
-      </DialogActions>
-    </Dialog>
+    <>
+      <Dialog open={open} onClose={onClose}>
+        <DialogTitle>{appointment?.id ? 'Update Appointment' : 'New Appointment'}</DialogTitle>
+        <DialogContent>
+          <SearchCreateField searchTerm={searchTerm} handleSearchChange={handleSearchChange} filterOptions={filteredPets}
+            handleOptionSelect={handlePetSelect}
+            selectedOption={selectedPet}
+            openCreate={handleOpen}
+            optionDisplayFields={{
+              photo: 'photo',
+              name: 'name',
+              sex: 'sex',
+              owners: 'owners',
+            }}
+            renderOption={renderOption}
+          />
+          <TextField
+            type='Date'
+            label="Date"
+            value={appointment?.date || ''}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Details"
+            value={appointment?.details || ''}
+            fullWidth
+            margin="normal"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={handleSubmit}>Save</Button>
+        </DialogActions>
+      </Dialog>
+      <ModalForm
+        isOpen={openExtraModal}
+        onClose={handleClose}
+        title={'Create Pet'}
+      >
+        <PetForm onSubmit={handleExtraSubmit} />
+      </ModalForm>
+  </>
   );
 };
 

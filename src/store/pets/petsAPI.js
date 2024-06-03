@@ -1,10 +1,10 @@
-import { get, post, remove, put } from "../services/httpService";
+import { get, post, remove, put } from "../../services/httpService";
 
 export const getPets = async () => {
   return await get("/v1/pets/");
 };
 
-export const createPet = async (petData) => {
+export const addPet = async (petData) => {
   return await post("/v1/pets/", petData);
 };
 

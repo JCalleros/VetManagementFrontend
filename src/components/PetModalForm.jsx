@@ -1,5 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, TextField, Button, DialogActions } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, TextField, Button, DialogActions, FormControl, Select, MenuItem } from '@mui/material';
 import SearchCreateField from './SearchCreateField';
 import ModalForm from './ModalForm';
 import OwnerForm from './OwnerForm';
@@ -27,6 +27,7 @@ const PetModalForm = ({ open, onClose, onSave, owners}) => {
     species: '',
     breed: '',
     age: '',
+    sex: '',
     photo: null,
   });
 
@@ -36,8 +37,6 @@ const PetModalForm = ({ open, onClose, onSave, owners}) => {
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
-
-  
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -71,7 +70,6 @@ const PetModalForm = ({ open, onClose, onSave, owners}) => {
   const onItemSelect = (owner) => {
     setSelectedOwner(owner);
     setSearchTerm('');
-    //setFilteredOwners([]);
   };
 
   return (
@@ -115,6 +113,20 @@ const PetModalForm = ({ open, onClose, onSave, owners}) => {
           variant="outlined"
           onChange={handleInputChange}
         />
+        <FormControl>
+          <Select
+            value={petData.sex || 'M'}
+            name="sex"
+            defaultValue='M'
+            onChange={handleInputChange}
+            margin="dense"
+            fullWidth
+            variant="outlined"
+          >
+            <MenuItem value="M">Male</MenuItem>
+            <MenuItem value="F">Female</MenuItem>
+          </Select>
+        </FormControl>
         <SearchCreateField searchLabel="Owners" searchTerm={searchTerm} data={owners} handleSearchChange={handleSearchChange} openCreate={handleOpen} onItemSelect={onItemSelect}/>
         <ModalForm
           isOpen={openExtraModal}
