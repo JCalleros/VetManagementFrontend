@@ -1,13 +1,9 @@
 import React, { createContext, useState, useEffect, useCallback } from "react";
-import { useCookies } from "react-cookie";
-import { login, refresh, verify } from "../api/auth";
-import { jwtDecode } from "jwt-decode";
+import { login, verify } from "../api/auth";
 
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  console.log("AuthProvider CONTEXT");
-  const [cookies] = useCookies(["refresh_token", "access_token"]);
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);

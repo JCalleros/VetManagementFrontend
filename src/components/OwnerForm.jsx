@@ -1,20 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  TextField,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Button,
-  FormHelperText,
-} from '@mui/material';
-import {createOwner} from '../api/owners'
+import React, { useState } from 'react';
+import { Box, TextField, Button } from '@mui/material';
+import { createOwner } from '../api/owners'
 
-const phoneRegex = /^\+?1?\d{9,15}$/;
+
 
 const OwnerForm = ({ onSubmit }) => {
+  const phoneRegex = /^\+?1?\d{9,15}$/;
+  
   const [formValues, setFormValues] = useState({
     fullName: '',
     phoneNumber: '',

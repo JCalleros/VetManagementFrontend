@@ -16,7 +16,6 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 
-// Create a custom theme with your preferred colors and fonts
 const theme = createTheme({
   palette: {
     primary: {
@@ -32,8 +31,6 @@ const theme = createTheme({
 });
 
 function App() {
-  console.log("App Rendering");
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

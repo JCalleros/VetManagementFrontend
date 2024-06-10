@@ -14,15 +14,15 @@ const Sidebar = ({ open }) => {
     <List>
       {sidebarItems.map(({ text, icon, path }, index) => (
         <Tooltip key={index} title={open ? '' : text} placement="right">
-        <ListItem component={Link} to={path} disablePadding>
-          <ListItemButton sx={{ minHeight: 48 }}>
-            <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}>
-              {icon}
-            </ListItemIcon>
-            <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-          </ListItemButton>
-        </ListItem>
-      </Tooltip>
+          <ListItem component={Link} to={path} disablePadding >
+            <ListItemButton sx={{ minHeight: 48 }}>
+              <ListItemIcon sx={{ minWidth: 0, mr: open ? 3 : 'auto', justifyContent: 'center' }}>
+                {icon}
+              </ListItemIcon>
+              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+            </ListItemButton>
+          </ListItem>
+        </Tooltip>
       ))}
       <Divider />
     </List>
