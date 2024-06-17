@@ -29,6 +29,7 @@ export function usePets() {
   };
 
   const handleDeletePet = (petId) => {
+    console.log(`Handling delete dispatch: ${petId}`);
     dispatch(removePet(petId));
   };
 

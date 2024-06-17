@@ -96,7 +96,19 @@ function MyCalendar() {
   };
   
   return (
-    <Box sx={{ p: 2 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1, overflowX: 'hidden' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          p: 2,
+          backgroundColor: '#fff',
+          boxShadow: 1,
+          borderRadius: 1,
+          mb: 2,
+        }}
+      >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
           label="Go to date"
@@ -106,6 +118,7 @@ function MyCalendar() {
           sx={{ mb: 2 }}
         />
       </LocalizationProvider>
+      </Box>
       <StyledCalendar
         localizer={localizer}
         events={events}

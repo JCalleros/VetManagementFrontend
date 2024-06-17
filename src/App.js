@@ -19,10 +19,16 @@ import ProtectedRoute from "./components/ProtectedRoute";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#1976d2",
+      main: "#89cff0",
     },
     secondary: {
-      main: "#f50057",
+      main: "#46745d",
+    },
+    background: {
+      main: "#708090",
+    },
+    accent: {
+      main: "#9BD3DD",
     },
   },
   typography: {
@@ -42,11 +48,10 @@ function App() {
             <Route element={<ProtectedRoute />}>
               <Route path="/dashboard" element={<DashboardLayout />}>
                 <Route path="" element={<DashboardHome />} />
-                <Route path="calendar" element={<CalendarPage />} />
+                <Route path="appointments" element={<CalendarPage />} />
                 <Route path="pets" element={<PetsPage />} />
                 <Route path="pets/:id" element={<PetDetail />} />
                 <Route path="reports" element={<ReportsPage />} />
-                <Route path="appointments" element={<AppointmentPage />} />
                 <Route
                   path="appointments/new"
                   element={<CreateAppointment />}

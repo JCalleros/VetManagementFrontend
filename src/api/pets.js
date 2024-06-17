@@ -9,7 +9,7 @@ export const createPet = async (petData) => {
 };
 
 export const deletePet = async (petId) => {
-  return await remove(`/v1/pets/${petId}/`);
+  return remove(`/v1/pets/${petId}/`);
 };
 
 export const updatePet = async (petId, petData) => {

@@ -3,7 +3,18 @@ import { getPets, addPet, deletePet, updatePet } from "./petsAPI";
 
 export const fetchPets = createAsyncThunk("pets/fetchPets", getPets);
 export const createPet = createAsyncThunk("pets/addPet", addPet);
-export const removePet = createAsyncThunk("pets/deletePet", deletePet);
+export const removePet = createAsyncThunk(
+  "pets/deletePet",
+  async (petId, { rejectWithValue }) => {
+    try {
+      await deletePet(petId);
+      return petId;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const editPet = createAsyncThunk("pets/updatePet", updatePet);
 
 const initialState = {
@@ -35,6 +46,9 @@ const petsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(createPet.fulfilled, (state, action) => {
+        console.log(
+          `Creating pet fulfilled: ${JSON.stringify(action.payload)}`
+        );
         state.data.push(action.payload);
       })
       .addCase(editPet.fulfilled, (state, action) => {
